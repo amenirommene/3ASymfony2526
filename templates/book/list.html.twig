@@ -1,0 +1,12 @@
+<ul>
+{% for b in list %}
+<li>{{b.id}} - {{b.publicationDate | date('d/m/y')}} - {{b.author.username}}
+<a href="{{path('app_book_updateForm',{'id': b.id })}}">Modifier</a>
+<a href="{{path('app_book_delete1',{'id': b.id })}}">Supprimer1</a>
+<a href="{{path('app_book_delete2',{'id': b.id })}}">Supprimer2</a>
+</li>
+
+{% endfor %}
+</ul>
+
+<a href="{{path('app_book_enabled')}}">Enabled book</a>

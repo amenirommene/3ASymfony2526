@@ -1,0 +1,41 @@
+{% set nb=0 %}
+{% if listAuthors is defined %}
+{% if listAuthors is empty %}
+<h2>Tableau vide </h2>
+{% else %}
+<table>
+<tr>
+<th>id</th>
+<th>username</th>
+{# <th>picture</th> #}
+<th>Email</th>
+{#<th>Nb books</th> #}
+<th>details</th>
+<th>Modifier</th>
+<th>Supprimer</th>
+</tr>
+{% for author in listAuthors %}
+{# {% set nb = nb + author.nbBooks %} #}
+<tr>
+<td>{{author.id}}</td>
+<td>{{author.username | upper}}</td>
+{# <td> <img src={{author.picture}} /></td> #}
+<td> {{author.email}}</td>
+{#<td>  {{author.nbBooks}}</td>#}
+<td><a href="{{path('app_author_details',{'id': author.id })}}">Details</a></td>
+<td><a href="{{path('app_author_updateForm',{'id': author.id })}}">Modifier</a></td>
+<td><a href="{{path('app_author_delete',{'id': author.id })}}">Supprimer</a></td>
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+{% else %}
+La variable de la liste des auteurs n'est pas définie
+{% endif %}
+
+<p>Le nombre d'auteurs est : {{listAuthors | length }} </p>
+<p>Le nombre total des livres est : {{ nb }} </p>
+
+
+
+
