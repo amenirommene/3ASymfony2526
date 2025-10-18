@@ -27,8 +27,16 @@ final class BookController extends AbstractController
     {
        $repo=$doctrine->getRepository(Book::class);
         $books=$repo->findAll();
+        $publishedBooks = $repo->findBy(['enabled' => true]);
+
+        $nbpublished = count($publishedBooks);
+        $notPublishedBooks = $repo->findBy(['enabled' => false]);
+
+        $nbNotpublished = count($notPublishedBooks);
         return $this->render('book/list.html.twig', [
             'list' => $books,
+            'nbpub' => $nbpublished,
+            'nbNotPub'=>$nbNotpublished
         ]);
     }
      #[Route('/getEnabledBook', name: 'app_book_enabled')]

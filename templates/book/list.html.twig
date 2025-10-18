@@ -1,3 +1,7 @@
+{% if list is empty %}
+
+No Books found 
+{% else %}
 <ul>
 {% for b in list %}
 <li>{{b.id}} - {{b.publicationDate | date('d/m/y')}} - {{b.author.username}}
@@ -9,5 +13,7 @@
 
 {% endfor %}
 </ul>
-
+<p>Nombre de livres publié: {{nbpub}} </p>
+<p>Nombre de livres non publié: {{nbNotPub}} </p>
 <a href="{{path('app_book_enabled')}}">Enabled book</a>
+{% endif %}
