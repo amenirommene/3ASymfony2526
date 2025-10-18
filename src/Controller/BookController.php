@@ -41,6 +41,15 @@ final class BookController extends AbstractController
         ]);
     }
 
+    //accés rapide à l'objet à partir de son id sans passer par le repo
+     #[Route('/get/{id}', name: 'app_book_details')]
+    public function getBookDetails(Book $book): Response
+    {
+        return $this->render('book/details.html.twig', [
+            'book' => $book,
+        ]);
+    }
+
      #[Route('/new', name: 'app_book_newForm')]
     public function addBook(Request $request,ManagerRegistry $doctrine): Response
     {
