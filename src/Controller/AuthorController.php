@@ -90,7 +90,20 @@ final class AuthorController extends AbstractController
       //  return new Response("Ajout affectué");
     }
 
-
+ #[Route('/delete', name: 'app_author_delete_nbBookZero')]
+    public function deleteAuthorNbBookZero(AuthorRepository $repo, ManagerRegistry $doctrine): Response
+    {
+        $authors= $repo->findBy(['nbBooks'=>0]); 
+        if ($authors){
+        foreach ($authors as $author){
+        $em=$doctrine->getManager();
+        $em->remove($author);
+        }
+        $em->flush();
+        
+        }
+        return $this->redirectToRoute("app_author_getAll");
+    }
      #[Route('/updateForm/{id}', name: 'app_author_updateForm')]
     public function updateAuthor(AuthorRepository $repo, Request $request,ManagerRegistry $doctrine): Response
     {
@@ -123,5 +136,7 @@ final class AuthorController extends AbstractController
         }
         return $this->redirectToRoute("app_author_getAll");
     }
+
+   
     
 }
