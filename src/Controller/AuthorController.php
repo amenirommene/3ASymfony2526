@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Author;
 use App\Form\AuthorType;
 use App\Repository\AuthorRepository;
+use App\Service\BookManagerService;
+use App\Service\HappyQuote;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -37,11 +39,14 @@ final class AuthorController extends AbstractController
         ]);
     }
     #[Route('/getA/{id}', name: 'app_author_details')]
-    public function getAuthor(AuthorRepository $repo, $id): Response
+    public function getAuthor(AuthorRepository $repo, $id, BookManagerService $service): Response
     {
+        
         $author = $repo->find($id);
+        $nbrBook= $service->countBooksByAuthor($author);
         return $this->render('author/show.html.twig', [
             'author' => $author,
+            'nbrBook'=>$nbrBook
         ]);
     }
      #[Route('/new', name: 'app_author_new')]
@@ -60,12 +65,16 @@ final class AuthorController extends AbstractController
         return $this->redirectToRoute("app_author_getAll");
     }
      #[Route('/getAll', name: 'app_author_getAll')]
-    public function getAllAuthor(ManagerRegistry $doctrine): Response
+    public function getAllAuthor(BookManagerService $service, HappyQuote $happyservice, ManagerRegistry $doctrine): Response
     {
        $repo=$doctrine->getRepository(Author::class);
+       $citation=$happyservice->getHappyMessage();
+       $bestAuthors= $service->bestAuthors(2);
         $authors=$repo->findAll();
         return $this->render('author/list.html.twig', [
             'listAuthors' => $authors,
+            'citation' => $citation,
+            'theBest'=>$bestAuthors
         ]);
     }
 

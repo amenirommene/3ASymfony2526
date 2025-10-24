@@ -1,3 +1,4 @@
+<h1> {{citation}} </h1>
 {% set nb=0 %}
 {% if listAuthors is defined %}
 {% if listAuthors is empty %}
@@ -38,4 +39,7 @@ La variable de la liste des auteurs n'est pas définie
 
 <a href="{{path('app_author_delete_nbBookZero')}}">Supprimer les auteurs ayant nbooks = 0 </a>
 
-
+<h1>The best Authors</h1>
+{% for author in theBest %}
+    <p>{{ author.username }} - {{ author.email }} - Books: {{ author.books|length }}</p>
+{% endfor %}
